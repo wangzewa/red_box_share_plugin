@@ -36,4 +36,12 @@ abstract class RedBookSharePluginPlatform extends PlatformInterface {
   }) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
+  Future<bool?> shareVideo({
+    required String title,
+    required String des,
+    required String url,
+    required String poster,
+  }) {
+    throw UnimplementedError('platformVersion() has not been implemented.');
+  }
 }

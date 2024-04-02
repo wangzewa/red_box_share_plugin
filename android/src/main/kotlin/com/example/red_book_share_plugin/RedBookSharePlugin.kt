@@ -17,7 +17,8 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-
+import com.xingin.xhssharesdk.model.sharedata.XhsVideoInfo
+import com.xingin.xhssharesdk.model.sharedata.XhsVideoResourceBean
 /** RedBookSharePlugin */
 class RedBookSharePlugin: FlutterPlugin, MethodCallHandler {
   /// The MethodChannel that will the communication between Flutter and native Android
@@ -41,6 +42,9 @@ class RedBookSharePlugin: FlutterPlugin, MethodCallHandler {
       result.success(judgeData.checkResultCode)
     }else if (call.method == "redShare") {
       share(call.argument("title"),call.argument("des"),call.argument("url"))
+      result.success(true)
+    }else if (call.method == "redShareVideo") {
+      shareVideo(call.argument("title"),call.argument("des"),call.argument("url"),call.argument("poster"))
       result.success(true)
     }else {
       result.notImplemented()
@@ -131,6 +135,22 @@ class RedBookSharePlugin: FlutterPlugin, MethodCallHandler {
       content = contents  // 标题，String
       imageInfo = XhsImageInfo(listOf(
         XhsImageResourceBean.fromUrl(url)))
+    }
+    val sessionId = XhsShareSdk.shareNote(mContext, note)
+    Log.i(
+      "xhs",
+      "----sessionId---$sessionId"
+    )
+  }
+
+  private fun shareVideo (titles:String?,contents:String?,url:String?,poster:String?) {
+    val note = XhsNote().apply {
+      title = titles  // 正文，String
+      content = contents  // 标题，String
+      videoInfo = XhsVideoInfo(
+        XhsVideoResourceBean.fromUrl(url),     // 视频
+        XhsImageResourceBean.fromUrl(poster)   //封面
+      )
     }
     val sessionId = XhsShareSdk.shareNote(mContext, note)
     Log.i(

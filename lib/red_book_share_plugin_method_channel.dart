@@ -14,11 +14,13 @@ class MethodChannelRedBookSharePlugin extends RedBookSharePluginPlatform {
     final data = await methodChannel.invokeMethod('init',{'appKey':appKey,'universalLink':universalLink});
     return data;
   }
+
   @override
   Future<int?> judgeShare() async{
     final data = await methodChannel.invokeMethod('judgeShare');
     return data;
   }
+
   @override
   Future<bool?> share({
     required String title,
@@ -26,6 +28,17 @@ class MethodChannelRedBookSharePlugin extends RedBookSharePluginPlatform {
     required String url,
   }) async{
     final data = await methodChannel.invokeMethod('redShare',{'title':title,'des':des,'url':url});
+    return data;
+  }
+
+  @override
+  Future<bool?> shareVideo({
+    required String title,
+    required String des,
+    required String url,
+    required String poster,
+  }) async{
+    final data = await methodChannel.invokeMethod('redShareVideo',{'title':title,'des':des,'url':url,'poster':poster});
     return data;
   }
 }
